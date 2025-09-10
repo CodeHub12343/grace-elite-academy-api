@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
 const { connectToMongo } = require('./src/backend-context/db');
 const apiRoutes = require('./src/backend-context');
 
@@ -19,6 +20,11 @@ app.use(express.urlencoded({ extended: true }));
 
 // Cookie parser
 app.use(cookieParser());
+
+// Security headers
+app.use(helmet({
+  crossOriginEmbedderPolicy: false,
+}));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
