@@ -459,10 +459,22 @@ export const feesApi = {
 }
 
 export const paymentsApi = {
+  // Low-level proxy (matches user's minimal helper semantics)
+  post: async (path, body) => {
+    try {
+      return handleResponse(await api.post(path, body))
+    } catch (e) { handleError(e) }
+  },
   // Student: initiate Paystack payment, returns authorization_url and reference
   initiate: async ({ studentId, feeId, amount }) => {
     try {
       return handleResponse(await api.post('/payments/initiate', { studentId, feeId, amount }))
+    } catch (e) { handleError(e) }
+  },
+  // Student: initiate Paystack payment (v2 path)
+  initiateV2: async ({ studentId, feeId, amount }) => {
+    try {
+      return handleResponse(await api.post('/v2/payments/initiate', { studentId, feeId, amount }))
     } catch (e) { handleError(e) }
   },
   // Optional (v1): verify by reference if backend exposes it
