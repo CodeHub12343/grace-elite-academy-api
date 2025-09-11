@@ -455,7 +455,17 @@ export const feesApi = {
   // Admin: create fee entry for a student or class (v2)
   create: async (data) => { try { return handleResponse(await api.post('/fees', data)) } catch (e) { handleError(e) } },
   // Student/Admin: list fees for a student (enriched with dynamic late fee)
-  forStudent: async (studentId) => { try { return handleResponse(await api.get(`/fees/student/${studentId}`)) } catch (e) { handleError(e) } },
+  forStudent: async (studentId) => {
+    try {
+      // Prefer v2 route if available
+      return handleResponse(await api.get(`/v2/fees/student/${studentId}`))
+    } catch {
+      try {
+        // Fallback to v1 route
+        return handleResponse(await api.get(`/fees/student/${studentId}`))
+      } catch (e) { handleError(e) }
+    }
+  },
 }
 
 export const paymentsApi = {
@@ -471,10 +481,10 @@ export const paymentsApi = {
       return handleResponse(await api.post('/payments/initiate', { studentId, feeId, amount }))
     } catch (e) { handleError(e) }
   },
-  // Student: initiate Paystack payment (v2 path)
-  initiateV2: async ({ studentId, feeId, amount }) => {
+  // Student: initiate Paystack payment (v2 path) - forwards any extra fields
+  initiateV2: async (payload) => {
     try {
-      return handleResponse(await api.post('/v2/payments/initiate', { studentId, feeId, amount }))
+      return handleResponse(await api.post('/v2/payments/initiate', payload))
     } catch (e) { handleError(e) }
   },
   // Optional (v1): verify by reference if backend exposes it

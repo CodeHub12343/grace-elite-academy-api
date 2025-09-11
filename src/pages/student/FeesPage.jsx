@@ -61,9 +61,9 @@ export function StudentFeesPage() {
   }, [fees]);
 
   const initiateMutation = useMutation({
-    mutationFn: async ({ feeId, amount }) => {
+    mutationFn: async ({ feeId, amount, classId, feeCategoryId }) => {
       if (!studentIdForApi) throw new Error('Missing studentId');
-      return paymentsApi.initiateV2({ studentId: studentIdForApi, feeId, amount });
+      return paymentsApi.initiateV2({ studentId: studentIdForApi, feeId, amount, classId, feeCategoryId });
     },
     onSuccess: (res) => {
       const url = res?.data?.authorization_url || res?.authorization_url;
@@ -151,7 +151,7 @@ export function StudentFeesPage() {
                         <PayCell
                           balance={balance}
                           loading={initiateMutation.isPending}
-                          onPay={(amt) => initiateMutation.mutate({ feeId: f._id, amount: amt })}
+                          onPay={(amt) => initiateMutation.mutate({ feeId: f._id, amount: amt, classId: f.classId || f.class?._id || f.class?._id || f?.class || undefined, feeCategoryId: f.feeCategoryId?._id || f.feeCategoryId || undefined })}
                         />
                       )}
                     </div>
@@ -210,7 +210,7 @@ export function StudentFeesPage() {
                           <PayCell
                             balance={balance}
                             loading={initiateMutation.isPending}
-                            onPay={(amt) => initiateMutation.mutate({ feeId: f._id, amount: amt })}
+                            onPay={(amt) => initiateMutation.mutate({ feeId: f._id, amount: amt, classId: f.classId || f.class?._id || f.class?._id || f?.class || undefined, feeCategoryId: f.feeCategoryId?._id || f.feeCategoryId || undefined })}
                           />
                         )}
                       </td>
