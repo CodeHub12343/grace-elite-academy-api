@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { GraduationCap, Phone, MapPin, CheckCircle2, ArrowRight, CalendarDays, Users, BookOpen, Award, Shield } from 'lucide-react'
@@ -24,6 +24,7 @@ export default function LandingPage() {
 }
 
 function TopBar() {
+  const [open, setOpen] = useState(false)
   return (
     <header className="sticky top-0 z-50 backdrop-blur bg-white/80 dark:bg-gray-950/70 border-b border-gray-200 dark:border-gray-800">
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -38,7 +39,33 @@ function TopBar() {
           <Link to="/login" className="text-gray-600 dark:text-gray-300 hover:text-blue-600">Sign in</Link>
           <Link to="/signup" className="px-3 py-1.5 rounded-md bg-blue-600 text-white hover:bg-blue-700">Apply</Link>
         </nav>
+        <button
+          type="button"
+          className="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+          aria-label="Toggle navigation"
+          aria-expanded={open ? 'true' : 'false'}
+          onClick={() => setOpen((v) => !v)}
+        >
+          <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            {open ? (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
       </div>
+      {open && (
+        <div className="sm:hidden border-t border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-950/90 backdrop-blur">
+          <nav className="max-w-7xl mx-auto px-4 py-3 grid gap-2 text-sm">
+            <a href="#admissions" className="py-2" onClick={() => setOpen(false)}>Admissions</a>
+            <a href="#highlights" className="py-2" onClick={() => setOpen(false)}>Highlights</a>
+            <a href="#testimonies" className="py-2" onClick={() => setOpen(false)}>Testimonies</a>
+            <Link to="/login" className="py-2 text-gray-600 dark:text-gray-300" onClick={() => setOpen(false)}>Sign in</Link>
+            <Link to="/signup" className="py-2 px-3 rounded-md bg-blue-600 text-white w-max" onClick={() => setOpen(false)}>Apply</Link>
+          </nav>
+        </div>
+      )}
     </header>
   )
 }
