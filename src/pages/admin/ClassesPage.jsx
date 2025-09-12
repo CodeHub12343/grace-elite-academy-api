@@ -309,7 +309,7 @@ const ClassesPage = () => {
                           <span>{classItem.studentIds?.length || 0} students</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text_gray-900">{new Date(classItem.createdAt).toLocaleDateString()}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{new Date(classItem.createdAt).toLocaleDateString()}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{classItem.updatedAt ? new Date(classItem.updatedAt).toLocaleDateString() : '-'}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <div className="flex items-center justify-end gap-2">
@@ -619,7 +619,7 @@ const ClassForm = ({ mode, classData, onBack, onSubmit }) => {
           </div>
 
           <div>
-            <label className="block text-sm font_medium text-gray-700 mb-2">Section</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Section</label>
             <input
               type="text"
               value={formData.section}
@@ -731,7 +731,7 @@ const ClassForm = ({ mode, classData, onBack, onSubmit }) => {
               const values = Array.from(e.target.selectedOptions).map(o => o.value)
               setFormData(prev => ({ ...prev, studentIds: values }))
             }}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus-border-transparent min-h-[10rem]"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[10rem]"
           >
             {filteredStudents.map(stu => (
               <option key={stu._id} value={stu._id}>{stu.userId?.name || stu._id}</option>
